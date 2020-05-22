@@ -25,29 +25,50 @@ should return a dictionary with words as keys, and their counts as values.
 
 # Your name, plus anyone who helped you with this assignment
 # Give credit where credit is due.
-__author__ = "???"
+__author__ = "Corbin Creech, worked alongside Peyton Glover"
 
 import sys
 
-
+# David R. helped with syntax issues. 
 def create_word_dict(filename):
     """Returns a word/count dict for the given file."""
-    # Your code here
-    return
+    word_dict = {}
+    with open(filename, 'r') as f:
+        for line in f:
+            new_line = line.split()
+            for word in new_line:
+                new_word = word.lower()
+                if new_word not in word_dict:
+                    word_dict[new_word] = 1
+                else:
+                    word_dict[new_word] += 1
+    return word_dict
+        
 
 
 def print_words(filename):
     """Prints one per line '<word> : <count>', sorted
     by word for the given file.
     """
-    # Your code here
-    return
+    word_dict = create_word_dict(filename)
+    tuple_list = sorted(word_dict.items())
+    new_word_dict = dict(tuple_list)
+    for k, v in new_word_dict.items():
+        result = print(k, ':', v)
+    return result
 
 
+    
+
+# David R. explained the usage of lambdas as keys.
 def print_top(filename):
     """Prints the top count listing for the given file."""
-    # Your code here
-    return
+    word_dict = create_word_dict(filename)
+    tuple_list = sorted(word_dict.items(), key=(lambda k: k[1]), reverse=True)
+    new_word_dict = dict(tuple_list[:20])
+    for k, v in new_word_dict.items():
+        result = print(k, ':', v)
+    return result
 
 
 # This basic command line argument parsing code is provided and calls
@@ -60,6 +81,7 @@ def main(args):
     option = args[0]
     filename = args[1]
 
+    # print(create_word_dict(filename))
     if option == '--count':
         print_words(filename)
     elif option == '--topcount':
